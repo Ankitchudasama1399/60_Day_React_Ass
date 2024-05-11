@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+    class ColorPicker extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          color: "#FFFFFF",
+          errorMessage: "",
+        };
+      }
+
+      handleColorChange = (event) => {
+        const colorValue = event.target.value;
+        // Regex pattern to match hex color code
+        const hexRegex = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
+
+        if (hexRegex.test(colorValue)) {
+          this.setState({ color: colorValue, errorMessage: "" });
+        } else {
+          this.setState({ errorMessage: "Invalid HEX color code" });
+        }
+      };
+
+      render() {
+        return (
+          <div>
+            <input
+              type="text"
+              value={this.state.color}
+              onChange={this.handleColorChange}
+              placeholder="Enter HEX color code"
+            />
+            <div
+              style={{
+                width: "200px",
+                height: "200px",
+                backgroundColor: this.state.color,
+                marginTop: "10px",
+              }}
+            ></div>
+            {this.state.errorMessage && (
+              <p style={{ color: "red" }}>{this.state.errorMessage}</p>
+            )}
+          </div>
+        );
+      }
+    }
+
+    ReactDOM.render(<ColorPicker />, document.getElementById("root"));
+  </script>
+</html>
